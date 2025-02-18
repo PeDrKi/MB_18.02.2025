@@ -1,26 +1,30 @@
 import React, { useState } from "react";
-import { 
-  KeyboardAvoidingView, 
-  StyleSheet, 
-  Text, 
-  TextInput, 
-  TouchableOpacity, 
-  TouchableWithoutFeedback, 
-  Keyboard, 
-  View 
+import {
+  KeyboardAvoidingView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
+  View
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
 export default function App() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [errorColor, setErrorColor] = useState("red"); // New state for color
 
   const validatePhoneNumber = (phone) => {
     const phoneRegex = /^(0[3|5|7|8|9])+([0-9]{8})$/;
     if (phoneRegex.test(phone)) {
       setErrorMessage("Số điện thoại hợp lệ!");
+      setErrorColor("green"); // Change color to green for valid phone number
     } else {
+      setErrorColor("red"); // Keep color red for invalid phone number
       setErrorMessage("Số điện thoại không hợp lệ!");
+      
     }
   };
 
@@ -46,11 +50,11 @@ export default function App() {
             value={phoneNumber}
             onChangeText={setPhoneNumber}
           />
-          {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
+          {errorMessage ? <Text style={[styles.errorText, { color: errorColor }]}>{errorMessage}</Text> : null}
         </View>
         <View>
-          <TouchableOpacity 
-            style={styles.buttonOpacity} 
+          <TouchableOpacity
+            style={styles.buttonOpacity}
             onPress={() => validatePhoneNumber(phoneNumber)}
           >
             <Text style={styles.buttonText}>Tiếp tục</Text>
@@ -98,11 +102,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   errorText: {
-    color: "red",
     marginTop: 5,
+    fontSize: 14,
   },
   buttonOpacity: {
-    backgroundColor: "#D3D3D3",
+    backgroundColor: "#007AFF", // Đổi màu thành xanh
     padding: 15,
     borderRadius: 5,
     alignItems: "center",
